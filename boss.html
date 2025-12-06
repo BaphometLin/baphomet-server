@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Baphomet Server - 보스 정보</title>
+
+<style>
+    body {
+        margin: 0;
+        background: #000;
+        color: #ddd;
+        font-family: "Malgun Gothic", Arial, sans-serif;
+        transition: background-image 1s ease-in-out;
+    }
+
+    .footer {
+        margin-top: 60px;
+        padding: 15px 0;
+        font-size: 14px;
+        color: rgba(230, 230, 230, 0.75);
+        text-align: center;
+        line-height: 1.4;
+    }
+    body.loaded {
+        background: url('images/background_full.jpg') no-repeat center top;
+        background-size: cover;
+    }
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.15);
+        pointer-events: none;
+        z-index: -1;
+    }
+    .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.55);
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(255,0,0,0.25);
+        text-align: center;
+        z-index: 1000;
+    }
+    .navbar a {
+        color: #ddd;
+        margin: 0 28px;
+        font-size: 19px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .navbar a:hover {
+        color: #ff3333;
+        border-bottom: 2px solid #ff3333;
+        text-shadow: 0 0 8px #ff0000;
+    }
+    .header {
+        background-image: url('images/baphomet2.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 520px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+    .header h1 {
+        position: relative;
+        font-size: 43px;
+        letter-spacing: 4px;
+        color: #fff;
+        text-shadow: 0 0 10px #000, 0 0 20px #900;
+        top: 60px;
+    }
+    .container {
+        width: 1000px;
+        margin: 120px auto 80px auto;
+        background: rgba(30,30,30,0.7);
+        padding: 20px;
+        border-radius: 10px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #eee;
+        font-size: 16px;
+    }
+    thead th {
+        background: rgba(80,0,0,0.8);
+        padding: 12px;
+        border: 1px solid #550000;
+        color: #ffcc00;
+        font-size: 18px;
+    }
+    tbody td {
+        padding: 12px;
+        border: 1px solid #333;
+    }
+    tbody tr {
+        background: rgba(0,0,0,0.55);
+    }
+    tbody tr:nth-child(even) {
+        background: rgba(0,0,0,0.60);
+    }
+    td img {
+        width: 65px;
+        height: 65px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #550000;
+    }
+</style>
+</head>
+
+<body>
+
+<script>
+window.addEventListener("load", () => {
+    document.body.classList.add("loaded");
+});
+</script>
+
+<div class="navbar">
+    <a href="index.html">홈</a>
+    <a href="notice.html">공지사항</a>
+    <a href="info.html">서버정보</a>
+    <a href="update.html">업데이트</a>
+    <a href="boss.html">보스정보</a>
+    <a href="promo.html">홍보안내</a>
+    <a href="service.html">고객센터</a>
+    <a href="download.html">다운로드</a>
+</div>
+
+<div class="header">
+    <h1>BOSS INFORMATION</h1>
+</div>
+
+<div class="container">
+<table>
+<thead>
+<tr>
+    <th>이미지</th>
+    <th>보스명</th>
+    <th>주요 보상</th>
+    <th>요일</th>
+    <th>출현 정보</th>
+</tr>
+</thead>
+<tbody>
+
+<!-- 🔥 기본 보스 33종 (순서 유지) -->
+<tr><td><img src="images/boss/demon.png"></td><td>데몬</td><td>데몬의 지팡이 , 미티어 스트라이크</td><td>매일</td><td>09:00 / 22:30</td></tr>
+
+<tr><td><img src="images/boss/balrog.png"></td><td>발록</td><td>카운터 배리어</td><td>매일</td><td>12:20 / 07:40 / 12:20 / 07:40</td></tr>
+
+<tr><td><img src="images/boss/bereth.png"></td><td>베레스</td><td>베레스의 부츠 , 베레스의 지팡이</td><td>매일</td><td>03:00 / 09:00 / 15:00 / 21:00</td></tr>
+
+<tr><td><img src="images/boss/arioc.png"></td><td>아리오크</td><td>미티어 , 앱솔루트 배리어 , 폴루트워터</td><td>매일</td><td>09:30 / 21:30</td></tr>
+
+<tr><td><img src="images/boss/yahi.png"></td><td>야히</td><td>살천의 활</td><td>매일</td><td>01:30 / 14:30 / 20:30</td></tr>
+
+<tr><td><img src="images/boss/phoenix.png"></td><td>피닉스</td><td>미티어 스트라이크</td><td>매일</td><td>02:00 / 06:30 / 16:00 / 21:00</td></tr>
+
+<tr><td><img src="images/boss/chaos.png"></td><td>혼돈</td><td>혼돈의 방어 셋</td><td>매일</td><td>01:00 / 07:00 / 13:00 / 19:00</td></tr>
+
+<tr><td><img src="images/boss/black_elder.png"></td><td>흑장로</td><td>흑장로의 샌달</td><td>매일</td><td>07:30 / 19:30 / 21:30</td></tr>
+
+<tr><td><img src="images/boss/spirid.png"></td><td>스피리드</td><td>카운터 배리어 , 축파워글로브</td><td>매일</td><td>02:00 / 09:00 / 14:00 / 21:00</td></tr>
+
+<tr><td><img src="images/boss/diamond_golem.png"></td><td>다이아몬드 골렘</td><td>디스인티그레이트 , 축돌장갑</td><td>매일</td><td>03:00 / 10:00 / 15:00 / 22:00</td></tr>
+
+<tr><td><img src="images/boss/death_knight.png"></td><td>데스나이트</td><td>론드의 이도류 , 투명망토</td><td>매일</td><td>02:30 / 09:30 / 16:30 / 21:00</td></tr>
+
+<tr><td><img src="images/boss/baphomet.png"></td><td>바포메트</td><td>바포메트의 지팡이</td><td>매일</td><td>01:30 / 07:30 / 13:30 / 19:30</td></tr>
+
+<tr><td><img src="images/boss/ice_queen.png"></td><td>얼음의여왕</td><td>얼음여왕의 지팡이</td><td>매일</td><td>06:00 / 12:00 / 21:35</td></tr>
+
+<tr><td><img src="images/boss/ancient_giant.png"></td><td>에이션트 자이언트</td><td>자이언트의 반지</td><td>매일</td><td>04:00 / 10:00 / 16:00 / 20:00</td></tr>
+
+<tr><td><img src="images/boss/kenlahel_kerenis.png"></td><td>켄라우헬 & 케레니스</td><td>축 무관의 양손검</td><td>매일</td><td>10:30 / 20:00 / 22:30</td></tr>
+
+<tr><td><img src="images/boss/talrak.png"></td><td>타락</td><td>타락의 방어구</td><td>매일</td><td>12:00 / 21:00</td></tr>
+
+<tr><td><img src="images/boss/giant_queen_ant.png"></td><td>거대 여왕 개미</td><td>흑왕아 , 금빛·은빛 날개</td><td>매일</td><td>05:00 / 11:00 / 17:00 / 20:30</td></tr>
+
+<tr><td><img src="images/boss/kurtz.png"></td><td>커츠</td><td>커츠의 검</td><td>매일</td><td>12:00 / 12:40</td></tr>
+
+<tr><td><img src="images/boss/doom.png"></td><td>멸망</td><td>카운터배리어 , 디스 , 코인</td><td>매일</td><td>01:00 / 07:00 / 13:00 / 19:00</td></tr>
+
+<tr><td><img src="images/boss/frenzy_knight_vald.png"></td><td>광폭의 나이트발드</td><td>2차 무기 , 테베 악세</td><td>금,토</td><td>22:00</td></tr>
+
+<tr><td><img src="images/boss/tebe_anubis_horus.png"></td><td>테베 아누비스 & 호루스</td><td>테베 악세 , 상자</td><td>목,금</td><td>02:00 / 13:00 / 21:00</td></tr>
+
+<tr><td><img src="images/boss/devil_king.png"></td><td>악마왕</td><td>악마왕 무기 , 상자</td><td>월,토,일</td><td>02:00 / 13:00 / 21:00</td></tr>
+
+<tr><td><img src="images/boss/great_minotaur.png"></td><td>그레이트 미노타우르스</td><td>블랙미스릴판금 , 가더</td><td>화,수</td><td>02:00 / 13:00 / 21:00</td></tr>
+
+<tr><td><img src="images/boss/grim_reaper.png"></td><td>그림리퍼</td><td>디스인티그레이트</td><td>매일</td><td>05:00 / 19:00 / 22:00</td></tr>
+
+<tr><td><img src="images/boss/lich.png"></td><td>리치</td><td>얼음여왕의 지팡이</td><td>매일</td><td>05:00 / 19:00 / 22:00</td></tr>
+
+<tr><td><img src="images/boss/knight_vald.png"></td><td>나이트발드</td><td>카운터 배리어</td><td>매일</td><td>05:00 / 19:00 / 22:00</td></tr>
+
+<tr><td><img src="images/boss/iris.png"></td><td>아이리스</td><td>라이아의 반지</td><td>매일</td><td>05:00 / 19:00 / 22:00</td></tr>
+
+<tr><td><img src="images/boss/mummy_lord.png"></td><td>머미로드</td><td>머미로드의 왕관</td><td>매일</td><td>05:00 / 19:00 / 22:00</td></tr>
+
+<tr><td><img src="images/boss/cougar.png"></td><td>쿠거</td><td>달의 장궁</td><td>매일</td><td>05:00 / 19:00 / 22:00</td></tr>
+
+<tr><td><img src="images/boss/zombie_lord.png"></td><td>좀비로드</td><td>흑왕도</td><td>매일</td><td>05:00 / 19:00 / 22:00</td></tr>
+
+<tr><td><img src="images/boss/vampire.png"></td><td>뱀파이어</td><td>뱀파이어의 망토</td><td>매일</td><td>05:00 / 19:00 / 22:00</td></tr>
+
+<tr><td><img src="images/boss/seer.png"></td><td>시어</td><td>시어의 심안</td><td>매일</td><td>05:00 / 19:00 / 22:00</td></tr>
+
+<tr><td><img src="images/boss/janis_queen.png"></td><td>제니스퀸</td><td>제니스의 반지</td><td>매일</td><td>05:00 / 19:00 / 22:00</td></tr>
+
+
+<!-- 🔥 마지막에 넣을 5개 보스 -->
+<tr><td><img src="images/boss/girutas.png"></td><td>기르타스</td><td>카운터배리어 , 디스 , 나이트발드 양손검</td><td>수,일</td><td>23:30</td></tr>
+
+<tr><td><img src="images/boss/valakas.png"></td><td>발라카스</td><td>양손검 , 디스 , 완력의 부츠</td><td>매일</td><td>21:45</td></tr>
+
+<tr><td><img src="images/boss/lindvior.png"></td><td>린드비오르</td><td>투망 , 민첩부츠 , 디스</td><td>매일</td><td>11:20</td></tr>
+
+<tr><td><img src="images/boss/antharas.png"></td><td>안타라스</td><td>카배 , 디스 , 론드 , 흑왕아</td><td>매일</td><td>11:00</td></tr>
+
+<tr><td><img src="images/boss/papurion.png"></td><td>파푸리온</td><td>나이트발드검 , 디스 , 지식 부츠</td><td>매일</td><td>00:30</td></tr>
+
+</tbody>
+</table>
+</div>
+<!-- 공통 하단 안내 -->
+<div class="footer">
+    서버의 모든 저작권은 NC소프트에 있으며, 리니지 개발과 발전, 커뮤니티를 위한 서버입니다.<br>
+    게임사의 요청 시 서버는 언제든지 중단될 수 있음을 알려드립니다.
+</div>
+</body>
+</html>

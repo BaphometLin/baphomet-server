@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Baphomet Server - 업데이트</title>
+
+<style>
+    body {
+        margin: 0;
+        background: #000;
+        color: #ddd;
+        font-family: "Malgun Gothic", Arial, sans-serif;
+        transition: background-image 1s ease-in-out;
+    }
+    .footer {
+        margin-top: 60px;
+        padding: 15px 0;
+        font-size: 14px;
+        color: rgba(230, 230, 230, 0.75);
+        text-align: center;
+        line-height: 1.4;
+    }
+    body.loaded {
+        background: url('images/background_full.jpg') no-repeat center top;
+        background-size: cover;
+        background-position-y: 300px;
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.15);
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    /* 상단 메뉴 */
+    .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.55);
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(255, 0, 0, 0.25);
+        z-index: 999;
+        text-align: center;
+    }
+
+    .navbar a {
+        color: #ddd;
+        margin: 0 28px;
+        font-size: 19px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .navbar a:hover {
+        color: #ff3333;
+        border-bottom: 2px solid #ff3333;
+        text-shadow: 0 0 8px #ff0000;
+    }
+
+    /* 상단 배너 이미지 */
+    .header {
+        background-image: url('images/baphomet2.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 520px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .header::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.15);
+    }
+
+    .header h1 {
+        position: relative;
+        font-size: 43px;
+        font-weight: bold;
+        letter-spacing: 4px;
+        color: #fff;
+        text-shadow: 0 0 10px #000, 0 0 20px #990000;
+        top: 60px;
+    }
+
+    /* 본문 영역 */
+    .container {
+        width: 1000px;
+        margin: 120px auto 70px auto;
+        padding-bottom: 100px;
+    }
+
+    h2 {
+        font-size: 32px;
+        color: #ff4444;
+        text-align: center;
+        margin-bottom: 40px;
+        text-shadow: 0 0 10px #900;
+    }
+
+    /* 업데이트 박스 */
+    .update-box {
+        background: rgba(0,0,0,0.65);
+        border: 1px solid rgba(255,30,30,0.4);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 18px;
+        cursor: pointer;
+        position: relative;
+        transition: 0.25s;
+    }
+
+    .update-box:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 20px rgba(255,0,0,0.6);
+        border-color: rgba(255,80,80,1);
+    }
+
+    .update-box b {
+        color: #ffcc00;
+        font-size: 22px;
+    }
+
+    .update-box p {
+        margin-top: 8px;
+        font-size: 18px;
+    }
+
+    /* 관리자용 삭제 버튼 */
+    .delete-btn {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        background: #880000;
+        color: #fff;
+        border: 1px solid #ff4444;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        display: none; /* 기본은 숨김 */
+    }
+    .delete-btn:hover {
+        background: #bb0000;
+    }
+
+    /* 버튼 */
+    .btn-write, .btn-admin {
+        margin: 20px auto 0 auto;
+        width: 220px;
+        padding: 12px;
+        background: #660000;
+        text-align: center;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 18px;
+        color: #fff;
+        border: 1px solid #ff4444;
+        transition: 0.25s;
+    }
+    .btn-write:hover, .btn-admin:hover {
+        background: #990000;
+        box-shadow: 0 0 15px #ff4444;
+    }
+</style>
+</head>
+
+<body>
+
+<script>
+    window.addEventListener("load", () => {
+        document.body.classList.add("loaded");
+    });
+
+    let adminMode = false;
+
+    function openWritePage() {
+        let pw = prompt("관리자 비밀번호를 입력하세요.");
+        let real = atob("d2pkYWxzcnVkMSE="); // wjdalsrud1!
+
+        if (pw === real) {
+            location.href = "update_write.html";
+        } else {
+            alert("비밀번호가 틀렸습니다.");
+        }
+    }
+
+    // 관리자 모드 활성화 → 삭제 버튼 보이기
+    function enableAdminMode() {
+        let pw = prompt("관리자 비밀번호를 입력하세요.");
+        let real = atob("d2pkYWxzcnVkMSE=");
+
+        if (pw !== real) {
+            alert("비밀번호 오류!");
+            return;
+        }
+
+        adminMode = true;
+
+        document.querySelectorAll(".delete-btn").forEach(btn => {
+            btn.style.display = "block";
+        });
+
+        alert("관리자 모드 활성화됨. 이제 삭제 버튼이 표시됩니다.");
+    }
+
+    // 업데이트 박스 내용 팝업
+    function openUpdate(title, content) {
+        alert("[" + title + "]\n\n" + content);
+    }
+
+    // 삭제 기능
+    function deleteUpdate(el) {
+        if (!confirm("정말 삭제하시겠습니까?")) return;
+        el.parentElement.remove(); // 화면에서 삭제
+    }
+</script>
+
+<!-- 메뉴 -->
+<div class="navbar">
+    <a href="index.html">홈</a>
+    <a href="notice.html">공지사항</a>
+    <a href="info.html">서버정보</a>
+    <a href="update.html">업데이트</a>
+    <a href="boss.html">보스정보</a>
+    <a href="promo.html">홍보안내</a>
+    <a href="service.html">고객센터</a>
+    <a href="download.html">다운로드</a>
+</div>
+
+<!-- 상단 배너 -->
+<div class="header">
+    <h1>UPDATE</h1>
+</div>
+
+<!-- 본문 -->
+<div class="container">
+
+    <h2>📢 최신 업데이트</h2>
+
+    <div class="update-box" onclick="openUpdate('서버 안정화 패치', '서버 성능 향상 및 일부 오류 수정 완료')">
+        <button class="delete-btn" onclick="deleteUpdate(this); event.stopPropagation();">삭제</button>
+        <b>[12/01] 서버 안정화 패치</b>
+        <p>서버 성능 향상 및 일부 오류 수정 완료</p>
+    </div>
+
+    <!-- 글쓰기 버튼 -->
+    <div class="btn-write" onclick="openWritePage()">업데이트 작성하기</div>
+
+    <!-- 관리자 모드 버튼 -->
+    <div class="btn-admin" onclick="enableAdminMode()">관리자 모드(삭제)</div>
+
+</div>
+<!-- 공통 하단 안내 -->
+<div class="footer">
+    서버의 모든 저작권은 NC소프트에 있으며, 리니지 개발과 발전, 커뮤니티를 위한 서버입니다.<br>
+    게임사의 요청 시 서버는 언제든지 중단될 수 있음을 알려드립니다.
+</div>
+</body>
+</html>
