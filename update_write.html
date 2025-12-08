@@ -39,19 +39,12 @@
         z-index: 999;
         text-align: center;
     }
-
     .navbar a {
         color: #ddd;
         margin: 0 28px;
         font-size: 19px;
         font-weight: bold;
         text-decoration: none;
-    }
-
-    .navbar a:hover {
-        color: #ff3333;
-        border-bottom: 2px solid #ff3333;
-        text-shadow: 0 0 8px #ff0000;
     }
 
     /* 상단 배너 */
@@ -65,7 +58,6 @@
         align-items: center;
         position: relative;
     }
-
     .header::before {
         content: "";
         position: absolute;
@@ -84,7 +76,7 @@
         top: 60px;
     }
 
-    /* 본문 */
+    /* 작성 영역 */
     .content {
         max-width: 900px;
         margin: 120px auto 70px auto;
@@ -122,44 +114,48 @@
         cursor: pointer;
         font-size: 18px;
         transition: 0.25s;
+        margin-right: 10px;
     }
+
     .btn:hover {
         background: #990000;
         box-shadow: 0 0 15px #ff4444;
     }
 
-    h3 {
-        margin-top: 25px;
-        font-size: 18px;
-        color: #ffcc00;
-    }
 </style>
 
 <script>
-function generateCode() {
-    const title = document.getElementById("title").value;
-    const content = document.getElementById("content").value;
-    const today = new Date();
-    const date = `${today.getMonth()+1}/${today.getDate()}`;
+window.addEventListener("load", () => {
+    document.body.classList.add("loaded");
+});
+
+/* 🔥 업데이트 저장 함수 */
+function saveUpdate() {
+    const title = document.getElementById("title").value.trim();
+    const content = document.getElementById("content").value.trim();
 
     if (!title || !content) {
         alert("제목과 내용을 입력하세요.");
         return;
     }
 
-    const code = `
-<div class="update-box">
-    <b>[${date}] ${title}</b>
-    <p>${content.replace(/\n/g, "<br>")}</p>
-</div>
-`.trim();
+    const today = new Date();
+    const date = today.toISOString().split("T")[0]; // YYYY-MM-DD 저장
 
-    document.getElementById("result").value = code;
+    const update = {
+        date: date,
+        title: title,
+        content: content
+    };
+
+    let list = JSON.parse(localStorage.getItem("updates") || "[]");
+    list.push(update);
+
+    localStorage.setItem("updates", JSON.stringify(list));
+
+    alert("업데이트가 등록되었습니다.");
+    location.href = "update.html";
 }
-
-window.addEventListener("load", () => {
-    document.body.classList.add("loaded");
-});
 </script>
 
 </head>
@@ -189,10 +185,9 @@ window.addEventListener("load", () => {
     <input type="text" id="title" placeholder="업데이트 제목 입력">
     <textarea id="content" rows="10" placeholder="업데이트 내용 입력"></textarea>
 
-    <div class="btn" onclick="generateCode()">HTML 코드 생성</div>
+    <div class="btn" onclick="saveUpdate()">업데이트 저장</div>
+    <a href="update.html" class="btn">취소</a>
 
-    <h3>⬇ 아래 코드를 update.html에 붙여넣으면 업데이트가 추가됩니다</h3>
-    <textarea id="result" rows="10"></textarea>
 </div>
 
 </body>
