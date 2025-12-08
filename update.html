@@ -26,15 +26,6 @@
         background-position-y: 300px;
     }
 
-    body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.15);
-        pointer-events: none;
-        z-index: -1;
-    }
-
     /* 상단 메뉴 */
     .navbar {
         position: fixed;
@@ -46,7 +37,6 @@
         z-index: 999;
         text-align: center;
     }
-
     .navbar a {
         color: #ddd;
         margin: 0 28px;
@@ -70,14 +60,6 @@
         justify-content: center;
         align-items: center;
         position: relative;
-    }
-
-    .header::before {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.15);
     }
 
     .header h1 {
@@ -120,20 +102,21 @@
     .update-box:hover {
         transform: scale(1.02);
         box-shadow: 0 0 20px rgba(255,0,0,0.6);
-        border-color: rgba(255,80,80,1);
     }
 
-    .update-box b {
-        color: #ffcc00;
+    .update-title {
         font-size: 22px;
+        color: #ffcc00;
     }
 
-    .update-box p {
-        margin-top: 8px;
+    .update-content {
+        margin-top: 12px;
         font-size: 18px;
+        display: none; /* 기본은 숨김 */
+        white-space: pre-line;
     }
 
-    /* 관리자용 삭제 버튼 */
+    /* 삭제버튼 */
     .delete-btn {
         position: absolute;
         right: 15px;
@@ -145,10 +128,7 @@
         border-radius: 5px;
         font-size: 14px;
         cursor: pointer;
-        display: none; /* 기본은 숨김 */
-    }
-    .delete-btn:hover {
-        background: #bb0000;
+        display: none;
     }
 
     /* 버튼 */
@@ -165,10 +145,6 @@
         border: 1px solid #ff4444;
         transition: 0.25s;
     }
-    .btn-write:hover, .btn-admin:hover {
-        background: #990000;
-        box-shadow: 0 0 15px #ff4444;
-    }
 </style>
 </head>
 
@@ -177,10 +153,12 @@
 <script>
     window.addEventListener("load", () => {
         document.body.classList.add("loaded");
+        loadUpdates();
     });
 
     let adminMode = false;
 
+    /* 관리자 글쓰기 */
     function openWritePage() {
         let pw = prompt("관리자 비밀번호를 입력하세요.");
         let real = atob("d2pkYWxzcnVkMSE="); // wjdalsrud1!
@@ -192,7 +170,7 @@
         }
     }
 
-    // 관리자 모드 활성화 → 삭제 버튼 보이기
+    /* 관리자모드 활성화 */
     function enableAdminMode() {
         let pw = prompt("관리자 비밀번호를 입력하세요.");
         let real = atob("d2pkYWxzcnVkMSE=");
@@ -203,27 +181,55 @@
         }
 
         adminMode = true;
+        document.querySelectorAll(".delete-btn").forEach(btn => btn.style.display = "block");
+        alert("관리자 모드 ON");
+    }
 
-        document.querySelectorAll(".delete-btn").forEach(btn => {
-            btn.style.display = "block";
+    /* 업데이트 불러오기 */
+    function loadUpdates() {
+        let list = JSON.parse(localStorage.getItem("updates") || "[]");
+
+        // 최신 날짜 기준 정렬
+        list.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+        let container = document.getElementById("updateList");
+        container.innerHTML = "";
+
+        list.forEach((u, index) => {
+            let box = document.createElement("div");
+            box.className = "update-box";
+
+            box.innerHTML = `
+                <button class="delete-btn" onclick="deleteUpdate(${index}, event)">삭제</button>
+                <div class="update-title">[${u.date}] ${u.title}</div>
+                <div class="update-content">${u.content}</div>
+            `;
+
+            // 접기/펼치기
+            box.addEventListener("click", function(e) {
+                if (e.target.classList.contains("delete-btn")) return;
+                let content = this.querySelector(".update-content");
+                content.style.display = content.style.display === "block" ? "none" : "block";
+            });
+
+            container.appendChild(box);
         });
-
-        alert("관리자 모드 활성화됨. 이제 삭제 버튼이 표시됩니다.");
     }
 
-    // 업데이트 박스 내용 팝업
-    function openUpdate(title, content) {
-        alert("[" + title + "]\n\n" + content);
-    }
+    /* 업데이트 삭제 */
+    function deleteUpdate(index, event) {
+        event.stopPropagation();
+        if (!confirm("삭제하시겠습니까?")) return;
 
-    // 삭제 기능
-    function deleteUpdate(el) {
-        if (!confirm("정말 삭제하시겠습니까?")) return;
-        el.parentElement.remove(); // 화면에서 삭제
+        let list = JSON.parse(localStorage.getItem("updates") || "[]");
+        list.splice(index, 1);
+        localStorage.setItem("updates", JSON.stringify(list));
+
+        loadUpdates();
     }
 </script>
 
-<!-- 메뉴 -->
+<!-- 상단 메뉴 -->
 <div class="navbar">
     <a href="index.html">홈</a>
     <a href="notice.html">공지사항</a>
@@ -242,34 +248,22 @@
 
 <!-- 본문 -->
 <div class="container">
-
     <h2>📢 최신 업데이트</h2>
 
-    <div class="update-box">
-    <b>[12/8] [12/04] 주간 업데이트</b>
-    <p>1. 미니맵 표시 <br> → ".미니맵"을 통해 캐릭터 및 파티원 위치 확인<br><br>
-       2. 버프 아이콘 표시<br> → 화면 상단에 있는 버프 아이콘을 통해 캐릭터에 버프 상태 및 대기시간 확인 가능<br><br>
-       3. 스킬 대기시간 표시<br> → 각각의 스킬에 대해 대기시간(딜레이) 확인 가능</p>
-</div>
-
-    <div class="update-box" onclick="openUpdate('서버 안정화 패치', '서버 성능 향상 및 일부 오류 수정 완료')">
-        <button class="delete-btn" onclick="deleteUpdate(this); event.stopPropagation();">삭제</button>
-        <b>[12/01] 서버 안정화 패치</b>
-        <p>서버 성능 향상 및 일부 오류 수정 완료</p>
-    </div>
+    <!-- 업데이트 리스트 자동 출력 -->
+    <div id="updateList"></div>
 
     <!-- 글쓰기 버튼 -->
     <div class="btn-write" onclick="openWritePage()">업데이트 작성하기</div>
 
     <!-- 관리자 모드 버튼 -->
     <div class="btn-admin" onclick="enableAdminMode()">관리자 모드(삭제)</div>
-
 </div>
-<!-- 공통 하단 안내 -->
+
 <div class="footer">
     서버의 모든 저작권은 NC소프트에 있으며, 리니지 개발과 발전, 커뮤니티를 위한 서버입니다.<br>
     게임사의 요청 시 서버는 언제든지 중단될 수 있음을 알려드립니다.
 </div>
+
 </body>
 </html>
-
