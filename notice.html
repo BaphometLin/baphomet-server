@@ -12,14 +12,7 @@
         font-family: "Malgun Gothic", Arial, sans-serif;
         transition: background-image 1s ease-in-out;
     }
-    .footer {
-        margin-top: 60px;
-        padding: 15px 0;
-        font-size: 14px;
-        color: rgba(230, 230, 230, 0.75);
-        text-align: center;
-        line-height: 1.4;
-    }
+
     body.loaded {
         background: url('images/background_full.jpg') no-repeat center top;
         background-size: cover;
@@ -45,13 +38,14 @@
         font-weight: bold;
         text-decoration: none;
     }
+
     .navbar a:hover {
         color: #ff3333;
         border-bottom: 2px solid #ff3333;
         text-shadow: 0 0 8px #ff0000;
     }
 
-    /* 🔥 index.html과 동일한 배너 스타일 */
+    /* 상단 배너 */
     .header {
         background-image: url('images/baphomet2.jpg');
         background-size: cover;
@@ -61,7 +55,6 @@
         justify-content: center;
         align-items: center;
         position: relative;
-        margin-top: 0;
     }
 
     .header::before {
@@ -69,7 +62,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background: rgba(0,0,0,0.15);
+        background: rgba(0,0,0,0.20);
     }
 
     .header::after {
@@ -88,10 +81,9 @@
         );
     }
 
-    /* 🔥 index.html 제목 스타일 그대로 적용 */
     .header h1 {
         position: relative;
-        font-size: 43px;
+        font-size: 45px;
         font-weight: bold;
         letter-spacing: 4px;
         color: #fff;
@@ -99,36 +91,53 @@
         top: 60px;
     }
 
-    /* 내용 박스 */
-    .container {
-        width: 900px;
-        margin: 120px auto 70px auto;
-        background: rgba(0,0,0,0.55);
-        padding: 40px;
-        border: 1px solid rgba(255,0,0,0.35);
-        border-radius: 10px;
-        box-shadow: 0 0 20px rgba(255,0,0,0.3);
-        line-height: 1.6;
-        font-size: 18px;
-    }
+    /* 본문 컨테이너 */
+.container {
+    width: 860px;
+    margin: 120px auto 70px auto;
+    background: rgba(0,0,0,0.78);  /* ← 강조 */
+    padding: 45px 50px;
+    border: 1px solid rgba(255,0,0,0.35);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255,0,0,0.25);
+    line-height: 1.65;
+    font-size: 18px;
+}
+
 
     h2 {
-        color: #ff3333;
-        margin-top: 35px;
-        margin-bottom: 15px;
-        font-size: 25px;
-        border-bottom: 1px solid rgba(255,0,0,0.2);
+        color: #ff4444;
+        font-size: 26px;
+        margin-top: 40px;
+        margin-bottom: 18px;
+        border-bottom: 1px solid rgba(255,0,0,0.35);
         padding-bottom: 6px;
     }
 
-    ul { padding-left: 20px; }
-    li { margin-bottom: 6px; }
+    ul { padding-left: 22px; }
+    li { margin-bottom: 10px; }
 
+    /* 주의 문구 박스 형태로 깔끔하게 */
     .note {
-        color: #ff9999;
+        margin-top: 8px;
+        margin-bottom: 12px;
+        background: rgba(255, 0, 0, 0.08);
+        border-left: 3px solid rgba(255, 0, 0, 0.45);
+        padding: 10px 12px;
+        border-radius: 6px;
+        color: #ffbbbb;
         font-size: 15px;
-        margin-left: 10px;
-        line-height: 1.5;
+        line-height: 1.45;
+    }
+
+    /* 하단 안내 */
+    .footer {
+        margin-top: 60px;
+        padding: 15px 0;
+        font-size: 14px;
+        color: rgba(230, 230, 230, 0.75);
+        text-align: center;
+        line-height: 1.4;
     }
 </style>
 </head>
@@ -153,9 +162,9 @@
     <a href="download.html">다운로드</a>
 </div>
 
-<!-- 🔥 index.html과 동일한 공지사항 배너 -->
+<!-- 상단 배너 -->
 <div class="header">
-    <h1> 공지사항</h1>
+    <h1>공지사항</h1>
 </div>
 
 <!-- 본문 -->
@@ -169,39 +178,34 @@
 
     <h2>채팅 규정</h2>
     <ul>
-        <li>서버 내 부정적인 영향을 주거나 비방성 발언은 금지됩니다.</li>
+        <li>비방 또는 서버 분위기를 해치는 발언 금지.</li>
         <div class="note">
-            ※ 1차 제재는 운영자의 기준에 따라 처리<br>
-            ※ 유저 간 언쟁은 운영자가 판단 기준을 정합니다<br>
-            ※ 먼저 했더라도 규정 위반 순서대로 처리됩니다<br>
-            ※ 상대를 제재시키기 위해 채팅 유도 후 신고 시 신고자도 제재될 수 있습니다<br>
-            ※ 운영자의 판단은 동일 기준으로 적용됩니다
+            · 1차 제재는 운영자의 판단 기준 적용<br>
+            · 유저 간 언쟁은 운영자 주관적 기준으로 판단<br>
+            · 채팅 유도 후 신고 시 신고자도 동일 제재 가능
         </div>
 
-        <li>장애 비하 발언 금지.</li>
-        <li>적혈 간 도발은 외창으로 간주합니다.</li>
+        <li>장애인 비하 발언 금지.</li>
+        <li>적혈 도발은 외창으로 간주.</li>
 
-        <li>전창·흰창 포함 모든 외창 제재
-            <div class="note">
-                ※ 1차 : 60분 채팅금지<br>
-                ※ 2차 : 600분 채팅금지<br>
-                ※ 3차 : 48시간 이용정지<br>
-                ※ 4차 : 72시간 이용정지
-            </div>
-        </li>
+        <li>전창·흰창 포함 모든 외창 제재</li>
+        <div class="note">
+            1차 : 60분 금지<br>
+            2차 : 600분 금지<br>
+            3차 : 48시간 정지<br>
+            4차 : 72시간 정지
+        </div>
 
-        <li>보조캐릭·VPN·IP 우회 외창 시 본캐릭 포함 제재
-            <div class="note">※ 1차 : 이용정지 (현재 차수)</div>
-        </li>
+        <li>보조캐릭/VPN으로 외창 시 본캐 포함 동일 제재</li>
+        <div class="note">1차 : 현재 차수 그대로 이용정지</div>
 
-        <li>성적 농담·성희롱 금지.</li>
+        <li>성적 농담 및 성희롱 금지</li>
 
-        <li>타인의 사생활/개인정보 발설 및 조롱 금지
-            <div class="note">
-                ※ 1차 : 48시간 이용정지<br>
-                ※ 2차 : 72시간 이용정지
-            </div>
-        </li>
+        <li>사생활·개인정보 언급 및 조롱 금지</li>
+        <div class="note">
+            1차 : 48시간 정지<br>
+            2차 : 72시간 정지
+        </div>
     </ul>
 
     <h2>사기 및 사칭</h2>
@@ -209,36 +213,37 @@
         <li>유저 사칭하여 아이템 요청 금지</li>
         <li>운영자 사칭 금지</li>
         <li>아이템 현금 거래는 운영자 중계만 인정</li>
-        <div class="note">※ 1차 : 경고 없이 영구 이용 제한</div>
     </ul>
+    <div class="note">※ 위반 시 경고 없이 영구 이용 제한</div>
 
     <h2>버그 악용 및 어뷰징</h2>
     <ul>
-        <li>버그를 이용해 이득을 취하는 모든 행위</li>
-        <li>정책 악용 또는 비정상적 플레이 금지</li>
-        <li>게임 의도와 다르게 시스템을 이용하는 행위 금지</li>
-        <div class="note">※ 1차 : 영구 이용 제한</div>
+        <li>버그를 이용한 모든 이득 행위</li>
+        <li>정책 악용 및 비정상적 플레이</li>
+        <li>의도와 다르게 시스템을 이용하는 모든 행위</li>
     </ul>
+    <div class="note">※ 1차 적발 시 영구 이용 제한</div>
 
     <h2>이중 혈맹</h2>
     <ul>
-        <li>본캐와 동일 IP 부캐의 타 혈맹 가입 불가</li>
-        <li>본캐는 라인, 부캐 중립 가입 후 사냥 금지</li>
-        <li>적혈에 부캐릭 잠입 금지</li>
-        <div class="note">※ 1차 : 벤 처리</div>
+        <li>본캐와 동일 IP 부캐릭 타 혈맹 가입 불가</li>
+        <li>본캐 라인 / 부캐 중립 상태에서 사냥 금지</li>
+        <li>적혈 잠입 목적 부캐 운영 금지</li>
     </ul>
+    <div class="note">※ 위반 시 벤 처리</div>
 
-    <h2>1:1 문의</h2>
+    <h2>1:1 문의 안내</h2>
     <p>
-        문의는 <b>카카오톡/텔레그램</b>이 가장 빠릅니다.<br>
+        문의는 <b>카카오톡 또는 텔레그램</b>이 가장 빠릅니다.<br>
         게임 내 문의는 <b>메티스</b>에게 편지를 보내주세요.
     </p>
 
 </div>
-<!-- 공통 하단 안내 -->
+
 <div class="footer">
     서버의 모든 저작권은 NC소프트에 있으며, 리니지 개발과 발전, 커뮤니티를 위한 서버입니다.<br>
     게임사의 요청 시 서버는 언제든지 중단될 수 있음을 알려드립니다.
 </div>
+
 </body>
 </html>
