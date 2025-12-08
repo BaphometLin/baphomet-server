@@ -26,7 +26,7 @@
         background-position-y: 300px;
     }
 
-    /* 🔥 notice.html과 동일한 상단 메뉴 */
+    /* 상단 메뉴 */
     .navbar {
         position: fixed;
         top: 0;
@@ -50,7 +50,7 @@
         text-shadow: 0 0 8px #ff0000;
     }
 
-    /* 🔥 notice.html 동일 배너 */
+    /* 배너 */
     .header {
         background-image: url('images/baphomet2.jpg');
         background-size: cover;
@@ -92,7 +92,7 @@
         text-shadow: 0 0 10px #000, 0 0 20px #990000;
     }
 
-    /* notice.html 동일 container */
+    /* container */
     .container {
         width: 900px;
         margin: 120px auto 70px auto;
@@ -105,39 +105,30 @@
         font-size: 18px;
     }
 
-    /* ---------------------------- */
-    /* 🔥 여기부터 고객센터 개별 블록 (용신 디자인 동일) */
-    /* ---------------------------- */
-
     .service-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 35px 0;
     }
-
     .service-icon {
         width: 120px;
         flex-shrink: 0;
     }
-
     .service-text {
         flex: 1;
         margin-left: 25px;
     }
-
     .service-text-title {
         font-size: 26px;
         font-weight: bold;
         margin-bottom: 8px;
     }
-
     .service-text-desc {
         font-size: 16px;
         color: #ccc;
         line-height: 1.6;
     }
-
     .service-btn {
         background: #6b5f53;
         padding: 15px 40px;
@@ -149,18 +140,15 @@
         transition: 0.2s;
         white-space: nowrap;
     }
-
     .service-btn:hover {
         background: #8b7e71;
     }
-
     .service-line {
         width: 100%;
         height: 1px;
         background: rgba(255,255,255,0.15);
         margin: 20px 0;
     }
-
 </style>
 </head>
 
@@ -192,7 +180,7 @@
 <!-- 본문 -->
 <div class="container">
 
-    <!-- 🔥 카카오톡 -->
+    <!-- 카카오톡 -->
     <div class="service-row">
         <img src="images/kakao.png" class="service-icon">
 
@@ -204,31 +192,35 @@
             </div>
         </div>
 
-        <a href="#" class="service-btn">단톡방 바로가기</a>
+        <!-- ✔ 단톡방 링크 적용 -->
+        <a href="https://open.kakao.com/o/gj9Q9C5h" class="service-btn" target="_blank">단톡방 바로가기</a>
     </div>
 
     <div class="service-line"></div>
 
-    <!-- 🔥 텔레그램 -->
+    <!-- 텔레그램 -->
     <div class="service-row">
         <img src="images/telegram.png" class="service-icon">
 
         <div class="service-text">
             <div class="service-text-title">텔레그램</div>
             <div class="service-text-desc">
-                문의 사항 발생 시 "편지"로 문의하세요.<br>
+                문의 사항이 있을 경우 텔레그램으로 연락해주세요.<br>
                 * 해당 링크 클릭 시 고객센터로 이동합니다.
             </div>
         </div>
 
-        <a href="#" class="service-btn">고객센터 바로가기</a>
+        <!-- ✔ 고객센터 텔레그램 링크 적용 -->
+        <a href="https://t.me/yjh07402kr" class="service-btn" target="_blank">고객센터 바로가기</a>
     </div>
 
 </div>
-<!-- 공통 하단 안내 -->
+
+<!-- 하단 안내 -->
 <div class="footer">
     서버의 모든 저작권은 NC소프트에 있으며, 리니지 개발과 발전, 커뮤니티를 위한 서버입니다.<br>
     게임사의 요청 시 서버는 언제든지 중단될 수 있음을 알려드립니다.
 </div>
+
 </body>
 </html>
