@@ -5,36 +5,41 @@
 <title>Baphomet Server</title>
 
 <style>
-    body {
-        margin: 0;
-        background: #000;
-        color: #ddd;
-        font-family: "Malgun Gothic", Arial, sans-serif;
-        transition: background-image 1s ease-in-out;
-    }
-
-    .footer {
-        margin-top: 60px;
-        padding: 15px 0;
-        font-size: 14px;
-        color: rgba(230, 230, 230, 0.75);
-        text-align: center;
-        line-height: 1.4;
-    }
-
-    body.loaded {
+    /* 🔥 모든 메뉴에서 동일한 고정 배경 */
+    html {
         background: url('images/background_full.jpg') no-repeat center top;
         background-size: cover;
-        background-position-y: 300px;
+        background-attachment: fixed;
     }
 
+    body {
+        margin: 0;
+        background: transparent; /* 배경은 html이 담당 */
+        color: #ddd;
+        font-family: "Malgun Gothic", Arial, sans-serif;
+    }
+
+    /* body.loaded는 이제 필요 없음 → 빈 상태 */
+    body.loaded {}
+
+    /* 전체 화면 위 어두운 오버레이 */
     body::before {
         content: "";
         position: fixed;
         inset: 0;
         background: rgba(0,0,0,0.15);
         pointer-events: none;
-        z-index: -1;
+        z-index: 0;
+    }
+
+    /* 푸터 */
+    .footer {
+        margin-top: 60px;
+        padding: 15px 0;
+        font-size: 14px;
+        color: rgba(230,230,230,0.75);
+        text-align: center;
+        line-height: 1.4;
     }
 
     /* 상단 메뉴 */
@@ -42,11 +47,12 @@
         position: fixed;
         top: 0;
         width: 100%;
-        background: rgba(0, 0, 0, 0.55);
+        background: rgba(0,0,0,0.55);
         padding: 14px 0;
-        border-bottom: 1px solid rgba(255, 0, 0, 0.25);
+        border-bottom: 1px solid rgba(255,0,0,0.25);
         z-index: 999;
         text-align: center;
+        backdrop-filter: blur(3px);
     }
 
     .navbar a {
@@ -55,6 +61,7 @@
         font-size: 19px;
         font-weight: bold;
         text-decoration: none;
+        transition: 0.25s;
     }
     .navbar a:hover {
         color: #ff3333;
@@ -62,7 +69,7 @@
         text-shadow: 0 0 8px #ff0000;
     }
 
-    /* 배너 */
+    /* 상단 배너 */
     .header {
         background-image: url('images/baphomet2.jpg');
         background-size: cover;
@@ -77,8 +84,7 @@
     .header::before {
         content: "";
         position: absolute;
-        width: 100%;
-        height: 100%;
+        inset: 0;
         background: rgba(0,0,0,0.15);
     }
 
@@ -86,7 +92,6 @@
         content: "";
         position: absolute;
         bottom: -1px;
-        left: 0;
         width: 100%;
         height: 350px;
         background: linear-gradient(
@@ -104,8 +109,8 @@
         font-weight: bold;
         letter-spacing: 4px;
         color: #fff;
-        text-shadow: 0 0 10px #000, 0 0 20px #990000;
         top: 60px;
+        text-shadow: 0 0 10px #000, 0 0 20px #990000;
     }
 
     /* 본문 */
@@ -115,7 +120,7 @@
         text-align: center;
     }
 
-    /* 🔥 네모박스 높이 축소 (기존 130 → 100px) */
+    /* 네모 박스 */
     .img-box {
         width: 100%;
         height: 100px;
@@ -145,18 +150,18 @@
     }
 
     .img-box span {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%);
         color:#fff;
         font-size:22px;
-        font-weight: bold;
-        text-shadow:0 0 8px #000, 0 0 15px #900;
+        font-weight:bold;
         z-index:5;
+        text-shadow:0 0 8px #000, 0 0 15px #900;
     }
 
-    /* 🔥 팝업 – 중앙 정렬로 수정됨 */
+    /* 중앙 팝업 */
     #popup {
         width: 420px;
         background: rgba(0,0,0,0.85);
@@ -166,20 +171,18 @@
         padding: 20px;
         border-radius: 10px;
         position: fixed;
-        top: 50%;     /* 중앙 */
-        left: 50%;    /* 중앙 */
-        transform: translate(-50%, -50%);  /* 정확히 화면 중앙 */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         z-index: 2000;
         display: none;
     }
-
     #popup h2 {
         text-align: center;
         margin-top: 0;
         color: #ff3333;
         text-shadow: 0 0 10px #900;
     }
-
     #popup .close-btn {
         position: absolute;
         top: 8px;
@@ -187,38 +190,36 @@
         cursor: pointer;
         font-size: 22px;
         color: #ff5555;
-        text-shadow: 0 0 8px #000;
     }
-    #popup .close-btn:hover { color: #ff9999; }
-
+    #popup .close-btn:hover {
+        color: #ff9999;
+    }
 </style>
 </head>
 
 <body>
 
 <script>
-    window.addEventListener("load", () => {
-        document.body.classList.add("loaded");
-        document.getElementById("popup").style.display = "block";
-    });
-
-    function closePopup() {
-        document.getElementById("popup").style.display = "none";
-    }
+window.addEventListener("load", () => {
+    document.body.classList.add("loaded");
+    document.getElementById("popup").style.display = "block";
+});
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
 </script>
 
-<!-- 🔥 중앙 팝업 -->
+<!-- 팝업 -->
 <div id="popup">
     <div class="close-btn" onclick="closePopup()">✖</div>
     <h2>BAPHOMET SERVER NOTICE</h2>
 
     <p>📢 <b>GRAND OPEN!</b></p>
-    <p>① 🔥안정적인 2.0 버전 "극하자"서버🔥노초기화 운영🔥<br>
 
     <p>② 매주 꾸준한 업데이트 진행<br>
-       → 안정적인 주간 업데이트로 플레이 환경을 유지!</br>
-       → 유저 의견을 수렴하여 지속적인 개선!.</p>
-    
+       → 안정적인 주간 업데이트로 플레이 환경 유지<br>
+       → 유저 의견을 반영한 지속적인 개선</p>
+
     <p>③ 완성도 높은 서버 환경을 위해 최선을 다하겠습니다.</p>
 </div>
 
@@ -239,7 +240,7 @@
     <h1>BAPHOMET SERVER</h1>
 </div>
 
-<!-- 메인 박스 -->
+<!-- 컨텐츠 -->
 <div class="container">
 
     <div class="img-box" onclick="location.href='notice.html'"
@@ -259,14 +260,10 @@
 
 </div>
 
-<!-- 공통 하단 안내 -->
+<!-- 하단 -->
 <div class="footer">
     서버의 모든 저작권은 NC소프트에 있으며, 리니지 개발과 발전, 커뮤니티를 위한 서버입니다.<br>
     게임사의 요청 시 서버는 언제든지 중단될 수 있음을 알려드립니다.
 </div>
 </body>
 </html>
-
-
-
-

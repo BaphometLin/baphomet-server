@@ -81,6 +81,7 @@
         background: rgba(30,30,30,0.7);
         border-radius: 10px;
     }
+
     h2 {
         font-size: 32px;
         color: #ff4444;
@@ -109,6 +110,7 @@
         font-size: 18px;
         transition: 0.25s;
         margin-right: 10px;
+        text-decoration: none;
     }
     .btn:hover {
         background: #990000;
@@ -131,7 +133,7 @@ function saveUpdate() {
     }
 
     const now = new Date();
-    const dateStr = now.toISOString().substring(0, 10); // YYYY-MM-DD
+    const dateStr = now.toISOString().substring(0, 10);
 
     const update = {
         id: Date.now(),
@@ -143,6 +145,10 @@ function saveUpdate() {
 
     let list = JSON.parse(localStorage.getItem("updates") || "[]");
     list.push(update);
+
+    // 최신 날짜 순 정렬
+    list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
     localStorage.setItem("updates", JSON.stringify(list));
 
     alert("업데이트가 등록되었습니다.");
@@ -167,7 +173,7 @@ function saveUpdate() {
 
 <!-- 배너 -->
 <div class="header">
-    <h1>BAPHOMET UPDATE WRITE</h1>
+    <h1>UPDATE WRITE</h1>
 </div>
 
 <!-- 내용 -->

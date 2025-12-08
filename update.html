@@ -5,18 +5,30 @@
 <title>Baphomet Server - 업데이트</title>
 
 <style>
-    body {
-        margin: 0;
-        background: #000;
-        color: #ddd;
-        font-family: "Malgun Gothic", Arial, sans-serif;
-        transition: background-image 1s ease-in-out;
-    }
-    body.loaded {
+
+    /* ------------------------------
+       전체 배경 통일 (모든 메뉴와 동일)
+    ------------------------------ */
+    html {
         background: url('images/background_full.jpg') no-repeat center top;
         background-size: cover;
-        background-position-y: 300px;
+        background-attachment: fixed;
     }
+    body {
+        margin: 0;
+        background: transparent;
+        color: #ddd;
+        font-family: "Malgun Gothic", Arial, sans-serif;
+    }
+    body::before {
+        content:"";
+        position: fixed;
+        inset:0;
+        background: rgba(0,0,0,0.18);
+        pointer-events: none;
+        z-index: 0;
+    }
+
     .footer {
         margin-top: 60px;
         padding: 15px 0;
@@ -24,17 +36,21 @@
         color: rgba(230, 230, 230, 0.75);
         text-align: center;
         line-height: 1.4;
+        position: relative;
+        z-index: 10;
     }
 
-    /* 상단 메뉴 */
+    /* ------------------------------
+       상단 메뉴
+    ------------------------------ */
     .navbar {
         position: fixed;
         top: 0;
         width: 100%;
-        background: rgba(0, 0, 0, 0.55);
+        background: rgba(0,0,0,0.55);
         padding: 14px 0;
-        border-bottom: 1px solid rgba(255, 0, 0, 0.25);
-        z-index: 999;
+        border-bottom: 1px solid rgba(255,0,0,0.25);
+        z-index: 1000;
         text-align: center;
     }
     .navbar a {
@@ -50,7 +66,9 @@
         text-shadow: 0 0 8px #ff0000;
     }
 
-    /* 상단 배너 */
+    /* ------------------------------
+       상단 배너
+    ------------------------------ */
     .header {
         background-image: url('images/baphomet2.jpg');
         background-size: cover;
@@ -60,14 +78,29 @@
         justify-content: center;
         align-items: center;
         position: relative;
+        z-index: 5;
     }
     .header::before {
         content: "";
         position: absolute;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.15);
+        inset: 0;
+        background: rgba(0,0,0,0.25);
     }
+    .header::after {
+        content:"";
+        position:absolute;
+        bottom:-1px;
+        width:100%;
+        height:350px;
+        background: linear-gradient(
+            to bottom,
+            rgba(0,0,0,0) 0%,
+            rgba(0,0,0,0.25) 30%,
+            rgba(0,0,0,0.55) 65%,
+            rgba(0,0,0,0.9) 100%
+        );
+    }
+
     .header h1 {
         position: relative;
         font-size: 43px;
@@ -76,14 +109,20 @@
         color: #fff;
         text-shadow: 0 0 10px #000, 0 0 20px #990000;
         top: 60px;
+        z-index: 10;
     }
 
-    /* 컨테이너 */
+    /* ------------------------------
+       본문 컨테이너
+    ------------------------------ */
     .container {
         width: 1000px;
         margin: 120px auto 70px auto;
         padding-bottom: 80px;
+        position: relative;
+        z-index: 10;
     }
+
     h2 {
         font-size: 32px;
         color: #ff4444;
@@ -92,7 +131,9 @@
         text-shadow: 0 0 10px #900;
     }
 
-    /* 검색 영역 */
+    /* ------------------------------
+        검색 영역
+    ------------------------------ */
     .search-box {
         display: flex;
         justify-content: space-between;
@@ -130,7 +171,9 @@
         box-shadow: 0 0 10px #ff4444;
     }
 
-    /* 게시판 테이블 */
+    /* ------------------------------
+        게시판 테이블
+    ------------------------------ */
     table.board {
         width: 100%;
         border-collapse: collapse;
@@ -158,14 +201,15 @@
     .title-link {
         color: #ddd;
         text-decoration: none;
-        cursor: pointer;
     }
     .title-link:hover {
         color: #ffcc00;
         text-shadow: 0 0 6px #ffcc00;
     }
 
-    /* 관리 버튼 */
+    /* ------------------------------
+       관리 버튼
+    ------------------------------ */
     .manage-btn {
         padding: 4px 8px;
         margin: 1px;
@@ -185,7 +229,9 @@
         border-color: #dd7777;
     }
 
-    /* 페이징 */
+    /* ------------------------------
+       페이징
+    ------------------------------ */
     .pagination {
         margin-top: 15px;
         text-align: center;
@@ -209,7 +255,9 @@
         background: #444;
     }
 
-    /* 모달(상세 보기) */
+    /* ------------------------------
+       상세 모달
+    ------------------------------ */
     .modal-overlay {
         position: fixed;
         inset: 0;
@@ -256,31 +304,29 @@
         cursor: pointer;
         color: #fff;
     }
+
 </style>
 
 <script>
     const PAGE_SIZE = 10;
     let updates = [];      // 전체 데이터
-    let filtered = [];     // 검색 적용된 데이터
+    let filtered = [];     // 검색된 데이터
     let currentPage = 1;
     let adminMode = false;
 
     window.addEventListener("load", () => {
-        document.body.classList.add("loaded");
         loadUpdates();
     });
 
-    // 로컬스토리지에서 업데이트 불러오기 + 마이그레이션 + 정렬
+    // ----------------------------------------
+    // 업데이트 데이터 로드 + 마이그레이션 + 정렬
+    // ----------------------------------------
     function loadUpdates() {
         let list = JSON.parse(localStorage.getItem("updates") || "[]");
 
-        // 마이그레이션: id / createdAt 없으면 생성
         list.forEach((u, idx) => {
-            if (!u.id) {
-                u.id = Date.now() + idx;
-            }
+            if (!u.id) u.id = Date.now() + idx;
             if (!u.createdAt) {
-                // date가 YYYY-MM-DD 형식이면 그걸 쓰고, 아니면 지금 시간
                 if (u.date && /^\d{4}-\d{2}-\d{2}$/.test(u.date)) {
                     u.createdAt = u.date + "T00:00:00";
                 } else {
@@ -289,7 +335,6 @@
             }
         });
 
-        // createdAt 기준 내림차순 정렬
         list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
         updates = list;
@@ -299,10 +344,13 @@
         renderBoard();
     }
 
+    // ----------------------------------------
     // 게시판 렌더링
+    // ----------------------------------------
     function renderBoard() {
         const tbody = document.getElementById("boardBody");
         const pagination = document.getElementById("pagination");
+
         tbody.innerHTML = "";
         pagination.innerHTML = "";
 
@@ -327,7 +375,7 @@
         pageItems.forEach((u, idx) => {
             const tr = document.createElement("tr");
 
-            // 번호 (전체 기준 역순)
+            // 번호
             const noTd = document.createElement("td");
             noTd.textContent = total - (start + idx);
             tr.appendChild(noTd);
@@ -342,9 +390,9 @@
             titleTd.appendChild(a);
             tr.appendChild(titleTd);
 
-            // 날짜 (YYYY-MM-DD)
+            // 날짜
             const dateTd = document.createElement("td");
-            dateTd.textContent = u.date || (u.createdAt ? u.createdAt.substring(0,10) : "");
+            dateTd.textContent = u.date || u.createdAt.substring(0,10);
             tr.appendChild(dateTd);
 
             // 관리
@@ -376,8 +424,9 @@
             tbody.appendChild(tr);
         });
 
-        // 페이징 버튼
+        // 페이징 처리
         const totalPages2 = Math.ceil(filtered.length / PAGE_SIZE);
+
         if (totalPages2 > 1) {
             // 이전
             const prevBtn = document.createElement("button");
@@ -386,7 +435,7 @@
             prevBtn.onclick = () => { currentPage--; renderBoard(); };
             pagination.appendChild(prevBtn);
 
-            // 번호
+            // 페이지 번호
             for (let p = 1; p <= totalPages2; p++) {
                 const btn = document.createElement("button");
                 btn.textContent = p;
@@ -404,9 +453,12 @@
         }
     }
 
-    // 검색
+    // ----------------------------------------
+    // 검색 기능
+    // ----------------------------------------
     function searchUpdates() {
         const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+
         if (!keyword) {
             filtered = [...updates];
         } else {
@@ -415,11 +467,14 @@
                 (u.content && u.content.toLowerCase().includes(keyword))
             );
         }
+
         currentPage = 1;
         renderBoard();
     }
 
+    // ----------------------------------------
     // 관리자 모드
+    // ----------------------------------------
     function enableAdminMode() {
         if (adminMode) {
             adminMode = false;
@@ -435,12 +490,15 @@
             alert("비밀번호 오류!");
             return;
         }
+
         adminMode = true;
         alert("관리자 모드 ON");
         renderBoard();
     }
 
-    // 글쓰기 이동 (관리자만)
+    // ----------------------------------------
+    // 글쓰기 이동
+    // ----------------------------------------
     function openWritePage() {
         if (!adminMode) {
             let pw = prompt("관리자 비밀번호를 입력하세요.");
@@ -454,27 +512,36 @@
         location.href = "update_write.html";
     }
 
+    // ----------------------------------------
     // 상세보기 모달
+    // ----------------------------------------
     function openDetail(id) {
         const u = updates.find(x => x.id === id);
         if (!u) return;
 
         document.getElementById("modalTitle").textContent = u.title;
-        document.getElementById("modalDate").textContent = u.date || (u.createdAt ? u.createdAt.substring(0,10) : "");
-        document.getElementById("modalContent").textContent = u.content || "";
+        document.getElementById("modalDate").textContent =
+            u.date || u.createdAt.substring(0,10);
+        document.getElementById("modalContent").textContent =
+            u.content || "";
 
         document.getElementById("modalOverlay").style.display = "flex";
     }
+
     function closeModal() {
         document.getElementById("modalOverlay").style.display = "none";
     }
 
-    // 수정 이동
+    // ----------------------------------------
+    // 수정
+    // ----------------------------------------
     function editUpdate(id) {
         location.href = "update_edit.html?id=" + encodeURIComponent(id);
     }
 
+    // ----------------------------------------
     // 삭제
+    // ----------------------------------------
     function deleteUpdate(id) {
         if (!confirm("정말 삭제하시겠습니까?")) return;
 
@@ -483,7 +550,7 @@
         localStorage.setItem("updates", JSON.stringify(list));
 
         updates = list;
-        searchUpdates(); // 필터 다시 적용 후 렌더
+        searchUpdates();
     }
 </script>
 </head>
@@ -495,14 +562,14 @@
     <a href="index.html">홈</a>
     <a href="notice.html">공지사항</a>
     <a href="info.html">서버정보</a>
-    <a href="update.html">업데이트</a>
+    <a href="update.html" style="color:#ff3333; border-bottom:2px solid #ff3333;">업데이트</a>
     <a href="boss.html">보스정보</a>
     <a href="promo.html">홍보안내</a>
     <a href="service.html">고객센터</a>
     <a href="download.html">다운로드</a>
 </div>
 
-<!-- 상단 배너 -->
+<!-- 배너 -->
 <div class="header">
     <h1>UPDATE</h1>
 </div>
@@ -517,6 +584,7 @@
             <button class="btn" onclick="searchUpdates()">검색</button>
             <button class="btn" onclick="document.getElementById('searchInput').value=''; searchUpdates();">전체보기</button>
         </div>
+
         <div>
             <button class="btn" onclick="openWritePage()">업데이트 작성</button>
             <button class="btn" onclick="enableAdminMode()">관리자 모드</button>
@@ -538,7 +606,7 @@
     <div id="pagination" class="pagination"></div>
 </div>
 
-<!-- 상세보기 모달 -->
+<!-- 상세 모달 -->
 <div id="modalOverlay" class="modal-overlay">
     <div class="modal">
         <div class="modal-title" id="modalTitle"></div>
@@ -558,3 +626,28 @@
 
 </body>
 </html>
+<!-- 수정 모달 -->
+<div id="editModal" class="modal-overlay">
+    <div class="modal">
+        <h2 style="color:#ffcc00; margin-bottom:10px;">업데이트 수정</h2>
+
+        <input type="hidden" id="editId">
+
+        <div>
+            <label style="color:#ccc;">제목</label><br>
+            <input id="editTitle" type="text" 
+                   style="width:100%; padding:8px; margin:6px 0; background:#222; border:1px solid #555; color:#fff; border-radius:5px;">
+        </div>
+
+        <div>
+            <label style="color:#ccc;">내용</label><br>
+            <textarea id="editContent" 
+                      style="width:100%; height:180px; padding:8px; margin-top:6px; background:#222; border:1px solid #555; color:#fff; border-radius:5px;"></textarea>
+        </div>
+
+        <div class="modal-close" style="margin-top:15px;">
+            <button onclick="saveEdit()">저장</button>
+            <button onclick="closeEditModal()">닫기</button>
+        </div>
+    </div>
+</div>

@@ -5,13 +5,30 @@
 <title>고객센터 - Baphomet Server</title>
 
 <style>
+    /* 🔥 전체 페이지 고정 배경 */
+    html {
+        background: url('images/background_full.jpg') no-repeat center top;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
     body {
         margin: 0;
-        background: #000;
+        background: transparent;
         color: #ddd;
         font-family: "Malgun Gothic", Arial, sans-serif;
-        transition: background-image 1s ease-in-out;
     }
+
+    /* 화면 전체 어두운 레이어 */
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.15);
+        pointer-events: none;
+        z-index: 0;
+    }
+
     .footer {
         margin-top: 60px;
         padding: 15px 0;
@@ -19,11 +36,6 @@
         color: rgba(230, 230, 230, 0.75);
         text-align: center;
         line-height: 1.4;
-    }
-    body.loaded {
-        background: url('images/background_full.jpg') no-repeat center top;
-        background-size: cover;
-        background-position-y: 300px;
     }
 
     /* 상단 메뉴 */
@@ -36,14 +48,18 @@
         border-bottom: 1px solid rgba(255, 0, 0, 0.25);
         z-index: 999;
         text-align: center;
+        backdrop-filter: blur(4px);
     }
+
     .navbar a {
         color: #ddd;
         margin: 0 28px;
         font-size: 19px;
         font-weight: bold;
         text-decoration: none;
+        transition: 0.25s;
     }
+
     .navbar a:hover {
         color: #ff3333;
         border-bottom: 2px solid #ff3333;
@@ -92,18 +108,20 @@
         text-shadow: 0 0 10px #000, 0 0 20px #990000;
     }
 
-    /* container */
-.container {
-    width: 860px;
-    margin: 120px auto 70px auto;
-    background: rgba(0,0,0,0.78);  /* ← 강조 */
-    padding: 45px 50px;
-    border: 1px solid rgba(255,0,0,0.35);
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(255,0,0,0.25);
-    line-height: 1.65;
-    font-size: 18px;
-}
+    /* 컨테이너 */
+    .container {
+        width: 860px;
+        margin: 120px auto 70px auto;
+        background: rgba(0,0,0,0.78);
+        padding: 45px 50px;
+        border: 1px solid rgba(255,0,0,0.35);
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(255,0,0,0.25);
+        line-height: 1.65;
+        font-size: 18px;
+        position: relative;
+        z-index: 2;
+    }
 
     .service-row {
         display: flex;
@@ -155,9 +173,9 @@
 <body>
 
 <script>
-    window.addEventListener("load", () => {
-        document.body.classList.add("loaded");
-    });
+window.addEventListener("load", () => {
+    document.body.classList.add("loaded");
+});
 </script>
 
 <!-- 상단 메뉴 -->
@@ -174,7 +192,7 @@
 
 <!-- 배너 -->
 <div class="header">
-    <h1> 고객센터 </h1>
+    <h1>고객센터</h1>
 </div>
 
 <!-- 본문 -->
@@ -192,7 +210,6 @@
             </div>
         </div>
 
-        <!-- ✔ 단톡방 링크 적용 -->
         <a href="https://open.kakao.com/o/gj9Q9C5h" class="service-btn" target="_blank">단톡방 바로가기</a>
     </div>
 
@@ -210,13 +227,12 @@
             </div>
         </div>
 
-        <!-- ✔ 고객센터 텔레그램 링크 적용 -->
-        <a href="https://t.me/yjh07402kr" class="service-btn" target="_blank">고객센터 바로가기</a>
+        <a href="https://t.me/Baphometlin" class="service-btn" target="_blank">고객센터 바로가기</a>
     </div>
 
 </div>
 
-<!-- 하단 안내 -->
+<!-- footer -->
 <div class="footer">
     서버의 모든 저작권은 NC소프트에 있으며, 리니지 개발과 발전, 커뮤니티를 위한 서버입니다.<br>
     게임사의 요청 시 서버는 언제든지 중단될 수 있음을 알려드립니다.

@@ -5,18 +5,31 @@
 <title>서버정보 - Baphomet Server</title>
 
 <style>
-    body {
-        margin: 0;
-        background: #000;
-        color: #ddd;
-        font-family: "Malgun Gothic", Arial, sans-serif;
-        transition: background-image 1s ease-in-out;
-    }
-
-    body.loaded {
+    /* 🔥 전체 메뉴 공통 배경 구조 */
+    html {
         background: url('images/background_full.jpg') no-repeat center top;
         background-size: cover;
-        background-position-y: 300px;
+        background-attachment: fixed;
+    }
+
+    body {
+        margin: 0;
+        background: transparent; /* body는 투명 처리 */
+        color: #ddd;
+        font-family: "Malgun Gothic", Arial, sans-serif;
+    }
+
+    /* 기존 body.loaded는 비워두기만 */
+    body.loaded {}
+
+    /* 전체 화면 어두운 오버레이 */
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.15);
+        pointer-events: none;
+        z-index: 0;
     }
 
     /* 상단 메뉴 */
@@ -29,6 +42,7 @@
         border-bottom: 1px solid rgba(255,0,0,0.25);
         z-index: 999;
         text-align: center;
+        backdrop-filter: blur(3px);
     }
 
     .navbar a {
@@ -61,7 +75,7 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: rgba(0,0,0,0.38); /* 더 어둡게 */
+        background: rgba(0,0,0,0.38);
     }
 
     .header::after {
@@ -94,13 +108,15 @@
     .container {
         width: 860px;
         margin: 120px auto 70px auto;
-        background: rgba(0,0,0,0.78); /* 배경 더 어둡게 */
+        background: rgba(0,0,0,0.78);
         padding: 45px 50px;
         border: 1px solid rgba(255,0,0,0.35);
         border-radius: 12px;
         box-shadow: 0 0 20px rgba(255,0,0,0.25);
         line-height: 1.7;
         font-size: 18px;
+        position: relative;
+        z-index: 5;
     }
 
     h2 {
@@ -175,7 +191,7 @@ window.addEventListener("load", () => {
     <h2>기본 정보</h2>
     <ul>
         <li>1. 서버 방향 : 본섭 지향, 장기 운영을 목표</li>
-        <li>2. 서버 특징 : 사냥 및 보스 공략을 통한 장비 획득/강화 중심</li>
+        <li>2. 서버 특징 : 사냥 및 보스 공략 중심</li>
         <li>3. 최고 레벨 : 60 (추후 변동 가능)</li>
     </ul>
 

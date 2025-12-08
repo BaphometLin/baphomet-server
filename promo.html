@@ -5,30 +5,40 @@
 <title>홍보안내 - Baphomet Server</title>
 
 <style>
-    body {
-        margin: 0;
-        background: #000;
-        color: #ddd;
-        font-family: "Malgun Gothic", Arial, sans-serif;
-        transition: background-image 1s ease-in-out;
-    }
-
-    body.loaded {
+    /* 🔥 전체 페이지 고정 배경 */
+    html {
         background: url('images/background_full.jpg') no-repeat center top;
         background-size: cover;
-        background-position-y: 280px;
+        background-attachment: fixed;
+    }
+
+    body {
+        margin: 0;
+        background: transparent;
+        color: #ddd;
+        font-family: "Malgun Gothic", Arial, sans-serif;
+    }
+
+    /* 화면 전체 어두운 레이어 */
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.15);
+        pointer-events: none;
+        z-index: 0;
     }
 
     /* -------------------------
-       상단 메뉴 (깔끔하게 정리)
+       상단 메뉴
     ------------------------- */
     .navbar {
         position: fixed;
         top: 0;
         width: 100%;
         padding: 14px 0;
-        background: rgba(0, 0, 0, 0.55);
-        border-bottom: 1px solid rgba(255, 0, 0, 0.25);
+        background: rgba(0,0,0,0.55);
+        border-bottom: 1px solid rgba(255,0,0,0.25);
         text-align: center;
         z-index: 999;
         backdrop-filter: blur(4px);
@@ -45,12 +55,12 @@
 
     .navbar a:hover {
         color: #ff4d4d;
-        text-shadow: 0 0 12px #ff0000;
         border-bottom: 2px solid #ff4d4d;
+        text-shadow: 0 0 12px #ff0000;
     }
 
     /* -------------------------
-       상단 배너 (그라데이션 강화)
+       상단 배너
     ------------------------- */
     .header {
         height: 520px;
@@ -61,12 +71,11 @@
         position: relative;
     }
 
-    /* 어두워지는 강도 + 부드러운 전환 */
     .header::before {
         content: "";
         position: absolute;
         inset: 0;
-        background: rgba(0, 0, 0, 0.22);
+        background: rgba(0,0,0,0.22);
     }
 
     .header::after {
@@ -78,10 +87,10 @@
         height: 380px;
         background: linear-gradient(
             to bottom,
-            rgba(0, 0, 0, 0) 0%,
-            rgba(0, 0, 0, 0.32) 35%,
-            rgba(0, 0, 0, 0.65) 70%,
-            rgba(0, 0, 0, 0.95) 100%
+            rgba(0,0,0,0) 0%,
+            rgba(0,0,0,0.32) 35%,
+            rgba(0,0,0,0.65) 70%,
+            rgba(0,0,0,0.95) 100%
         );
     }
 
@@ -96,19 +105,21 @@
     }
 
     /* -------------------------
-       본문 컨텐츠 박스
+       내용 컨테이너
     ------------------------- */
-.container {
-    width: 860px;
-    margin: 120px auto 70px auto;
-    background: rgba(0,0,0,0.78);  /* ← 강조 */
-    padding: 45px 50px;
-    border: 1px solid rgba(255,0,0,0.35);
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(255,0,0,0.25);
-    line-height: 1.65;
-    font-size: 18px;
-}
+    .container {
+        width: 860px;
+        margin: 120px auto 70px auto;
+        background: rgba(0,0,0,0.78);
+        padding: 45px 50px;
+        border: 1px solid rgba(255,0,0,0.35);
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(255,0,0,0.25);
+        line-height: 1.65;
+        font-size: 18px;
+        position: relative;
+        z-index: 5;
+    }
 
     h2 {
         margin-top: 35px;
@@ -154,7 +165,7 @@
     }
 
     /* -------------------------
-       홍보내용 복사 버튼
+       복사 버튼
     ------------------------- */
     .copy-btn {
         margin: 30px auto;
@@ -172,15 +183,38 @@
     .copy-btn:hover {
         background: #2f2f2f;
         border-color: #ff4d4d;
-        box-shadow: 0 0 12px rgba(255, 0, 0, 0.35);
+        box-shadow: 0 0 12px rgba(255,0,0,0.35);
     }
 
+    /* 🔥 홍보글 박스 */
+    .promo-box {
+        margin-top: 20px;
+        padding: 20px;
+        background: rgba(30, 30, 30, 0.8);
+        border: 1px solid rgba(255,0,0,0.3);
+        border-radius: 10px;
+        line-height: 1.7;
+        white-space: pre-line;
+        cursor: pointer;
+        font-size: 17px;
+        color: #eee;
+        user-select: none;
+    }
+
+    .promo-box:hover {
+        background: rgba(40,40,40,0.85);
+        box-shadow: 0 0 12px rgba(255,0,0,0.35);
+    }
+
+    /* -------------------------
+       하단 안내
+    ------------------------- */
     .footer {
         margin-top: 60px;
         padding: 15px 0;
         font-size: 14px;
         text-align: center;
-        color: rgba(230, 230, 230, 0.75);
+        color: rgba(230,230,230,0.75);
         line-height: 1.4;
     }
 
@@ -190,19 +224,31 @@
 <body>
 
 <script>
-    window.addEventListener("load", () => {
-        document.body.classList.add("loaded");
-    });
+window.addEventListener("load", () => {
+    document.body.classList.add("loaded");
+});
 
-    function copyPromo() {
-        const text = document.getElementById("promoText").innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert("홍보내용이 복사되었습니다!");
-        });
-    }
+/* 🔥 클릭 시 전체 선택 */
+function selectText(id) {
+    const element = document.getElementById(id);
+    const range = document.createRange();
+    range.selectNodeContents(element);
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+}
+
+/* 🔥 복사하기 */
+function copyPromo() {
+    const text = document.getElementById("promoText").innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        alert("홍보내용이 복사되었습니다!");
+    });
+}
 </script>
 
-<!-- 메뉴바 -->
+<!-- 메뉴 -->
 <div class="navbar">
     <a href="index.html">홈</a>
     <a href="notice.html">공지사항</a>
@@ -219,7 +265,7 @@
     <h1>홍보안내</h1>
 </div>
 
-<!-- 내용 -->
+<!-- 본문 -->
 <div class="container">
 
     <h2>홍보 사이트</h2>
@@ -238,25 +284,75 @@
         <div class="site-btn"><a href="https://lintodays.com/" target="_blank">린투데이</a></div>
     </div>
 
-    <h2>홍보 방법</h2>
-    <p>
-        ▶ 위 사이트 중 <b>5곳</b>에 홍보내용을 게시해주세요.<br>
-        ▶ 게시 후 <b>날짜가 보이도록</b> 스크린샷을 찍어 텔레그램으로 보내주세요.
-    </p>
-
     <h2>홍보 보상</h2>
     <p>
-        ✔ 드래곤 사파이어<br>
-        ✔ 자동사냥 추가 이용권<br>
-        ※ 보상은 변경될 수 있습니다.
+        ✔ 게임 내 공지 또는 서버 단톡방에서 확인<br>
+        ✔ 자동사냥이용권 + 알파<br>
+        ※ 보상은 변동될 수 있습니다.
     </p>
 
+    <!-- 복사 버튼 -->
     <div class="copy-btn" onclick="copyPromo()">홍보내용 복사</div>
 
-    <div id="promoText" style="display:none;">
-여기에 홍보글을 넣으면 됩니다.
-나중에 수정해서 사용하세요.
-    </div>
+    <!-- 🔥 홍보 내용 박스 -->
+    <div id="promoText" class="promo-box" onclick="selectText('promoText')">
+❤️❤️노 초기화 2.0 ❤️❤️신생 바포메트 서버 GRAND OPEN❤️❤️자동사냥❤️❤️극하자서버 2.0❤️❤️
+
+★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+❤️ 이런 분들께 추천드립니다
+
+🔹 잦은 초기화(리셋)에 지쳐 안정적인 서버를 찾으시는 분  
+🔹 운영자의 갑질, 방관 등에 실망하신 분  
+🔹 직장인이라 플레이 시간이 많지 않은 분  
+
+❤️ 더 이상 헤매지 마세요. 바포메트 서버와 함께라면 충분합니다.
+
+★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+
+⭐ 2.0 바포메트 서버 : https://baphometlin.github.io/baphomet-server/
+
+⭐ 바포메트 서버 단톡방 : https://open.kakao.com/o/gj9Q9C5h
+
+⭐ 텔레그램 문의 : Baphometlin
+
+
+★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+❤️ 노초기화 2.0 바포메트 서버 소개 ❤️
+
+🔹 본섭 지향 극!하자 서버  
+🔹 무과금 유저도 충분히 플레이 가능  
+🔹 2.0 미니맵, F1 F2 F3 슬롯창 기능, 장비 착용 On/Off, 인벤 수량 표시  
+🔹 화면 상단 버프 표시 및 잔여 시간 확인  
+🔹 스킬 대기시간 표시  
+🔹 해외에서도 칼끊김이 없는 자동칼질 구현  
+🔹 이벤트 상시 진행  
+🔹 전투 / 뎅팔이 등 다양한 컨텐츠 지원  
+🔹 정기 업데이트로 안정적 운영  
+🔹 군주들과 협의하여 서버 방향 논의  
+🔹 자동사냥 / 자동판매 시스템 → 직장인 핵이득  
+🔹 1컴 2클라 지원
+
+
+★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+❤️ 운영 방침 ❤️
+
+🔹 1인 운영으로 비리, 측근 전면 차단  
+🔹 디도스 대비 / 오토프로그램 강력 차단 업데이트  
+🔹 맵 확장 업데이트 예정 (오만, 테베라스, 지옥 등 순차 진행)  
+🔹 중요한 업데이트는 모두 공지  
+🔹 아이템, 아데나 가치 보전을 위한 지속적인 관리
+
+★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+⭐ 2.0 바포메트 서버 : https://baphometlin.github.io/baphomet-server/
+
+⭐ 바포메트 서버 단톡방 : https://open.kakao.com/o/gj9Q9C5h
+
+⭐ 텔레그램 문의 : Baphometlin    </div>
 
 </div>
 
@@ -267,3 +363,6 @@
 
 </body>
 </html>
+
+
+

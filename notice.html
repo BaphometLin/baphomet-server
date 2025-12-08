@@ -5,18 +5,30 @@
 <title>공지사항 - Baphomet Server</title>
 
 <style>
-    body {
-        margin: 0;
-        background: #000;
-        color: #ddd;
-        font-family: "Malgun Gothic", Arial, sans-serif;
-        transition: background-image 1s ease-in-out;
-    }
-
-    body.loaded {
+    /* 🔥 전체 페이지 공통 배경 적용 */
+    html {
         background: url('images/background_full.jpg') no-repeat center top;
         background-size: cover;
-        background-position-y: 300px;
+        background-attachment: fixed;
+    }
+
+    body {
+        margin: 0;
+        background: transparent; /* body는 투명 */
+        color: #ddd;
+        font-family: "Malgun Gothic", Arial, sans-serif;
+    }
+
+    body.loaded {}
+
+    /* 어두운 오버레이 */
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.15);
+        pointer-events: none;
+        z-index: 0;
     }
 
     /* 상단 메뉴 */
@@ -24,11 +36,12 @@
         position: fixed;
         top: 0;
         width: 100%;
-        background: rgba(0, 0, 0, 0.55);
+        background: rgba(0,0,0,0.55);
         padding: 14px 0;
-        border-bottom: 1px solid rgba(255, 0, 0, 0.25);
-        z-index: 999;
+        border-bottom: 1px solid rgba(255,0,0,0.25);
         text-align: center;
+        z-index: 999;
+        backdrop-filter: blur(3px);
     }
 
     .navbar a {
@@ -60,8 +73,7 @@
     .header::before {
         content: "";
         position: absolute;
-        width: 100%;
-        height: 100%;
+        inset: 0;
         background: rgba(0,0,0,0.20);
     }
 
@@ -69,7 +81,6 @@
         content: "";
         position: absolute;
         bottom: -1px;
-        left: 0;
         width: 100%;
         height: 350px;
         background: linear-gradient(
@@ -91,19 +102,20 @@
         top: 60px;
     }
 
-    /* 본문 컨테이너 */
-.container {
-    width: 860px;
-    margin: 120px auto 70px auto;
-    background: rgba(0,0,0,0.78);  /* ← 강조 */
-    padding: 45px 50px;
-    border: 1px solid rgba(255,0,0,0.35);
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(255,0,0,0.25);
-    line-height: 1.65;
-    font-size: 18px;
-}
-
+    /* 본문 박스 */
+    .container {
+        width: 860px;
+        margin: 120px auto 70px auto;
+        background: rgba(0,0,0,0.78);
+        padding: 45px 50px;
+        border: 1px solid rgba(255,0,0,0.35);
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(255,0,0,0.25);
+        line-height: 1.65;
+        font-size: 18px;
+        position: relative;
+        z-index: 5;
+    }
 
     h2 {
         color: #ff4444;
@@ -117,7 +129,7 @@
     ul { padding-left: 22px; }
     li { margin-bottom: 10px; }
 
-    /* 주의 문구 박스 형태로 깔끔하게 */
+    /* 주의 박스 스타일 */
     .note {
         margin-top: 8px;
         margin-bottom: 12px;
@@ -130,12 +142,12 @@
         line-height: 1.45;
     }
 
-    /* 하단 안내 */
+    /* footer */
     .footer {
         margin-top: 60px;
         padding: 15px 0;
         font-size: 14px;
-        color: rgba(230, 230, 230, 0.75);
+        color: rgba(230,230,230,0.75);
         text-align: center;
         line-height: 1.4;
     }
@@ -145,9 +157,9 @@
 <body>
 
 <script>
-    window.addEventListener("load", () => {
-        document.body.classList.add("loaded");
-    });
+window.addEventListener("load", () => {
+    document.body.classList.add("loaded");
+});
 </script>
 
 <!-- 상단 메뉴 -->
@@ -173,20 +185,20 @@
     <h2>접속 관련</h2>
     <ul>
         <li>IP당 2개의 클라이언트 접속을 허용합니다.</li>
-        <li>접속 오류 발생 시 카카오톡/텔레그램으로 문의해 주세요.</li>
+        <li>접속 오류 발생 시 카카오톡/텔레그램으로 문의해주세요.</li>
     </ul>
 
     <h2>채팅 규정</h2>
     <ul>
-        <li>비방 또는 서버 분위기를 해치는 발언 금지.</li>
+        <li>비방 및 서버 분위기 저해 발언 금지</li>
         <div class="note">
-            · 1차 제재는 운영자의 판단 기준 적용<br>
-            · 유저 간 언쟁은 운영자 주관적 기준으로 판단<br>
+            · 1차 제재는 운영자 판단 기준 적용<br>
+            · 유저 간 언쟁은 운영자 판단으로 처리<br>
             · 채팅 유도 후 신고 시 신고자도 동일 제재 가능
         </div>
 
-        <li>장애인 비하 발언 금지.</li>
-        <li>적혈 도발은 외창으로 간주.</li>
+        <li>장애인 비하 발언 금지</li>
+        <li>적혈 도발은 외창으로 간주</li>
 
         <li>전창·흰창 포함 모든 외창 제재</li>
         <div class="note">
@@ -196,12 +208,12 @@
             4차 : 72시간 정지
         </div>
 
-        <li>보조캐릭/VPN으로 외창 시 본캐 포함 동일 제재</li>
-        <div class="note">1차 : 현재 차수 그대로 이용정지</div>
+        <li>보조캐릭·VPN 외창 시 본캐 포함 동일 제재 적용</li>
+        <div class="note">※ 1차 적발 시 바로 해당 차수 제재</div>
 
         <li>성적 농담 및 성희롱 금지</li>
 
-        <li>사생활·개인정보 언급 및 조롱 금지</li>
+        <li>사생활·개인정보 언급 또는 조롱 금지</li>
         <div class="note">
             1차 : 48시간 정지<br>
             2차 : 72시간 정지
@@ -210,7 +222,7 @@
 
     <h2>사기 및 사칭</h2>
     <ul>
-        <li>유저 사칭하여 아이템 요청 금지</li>
+        <li>유저 사칭하여 아이템 요구 금지</li>
         <li>운영자 사칭 금지</li>
         <li>아이템 현금 거래는 운영자 중계만 인정</li>
     </ul>
@@ -218,19 +230,19 @@
 
     <h2>버그 악용 및 어뷰징</h2>
     <ul>
-        <li>버그를 이용한 모든 이득 행위</li>
+        <li>버그를 이용한 모든 행위</li>
         <li>정책 악용 및 비정상적 플레이</li>
-        <li>의도와 다르게 시스템을 이용하는 모든 행위</li>
+        <li>시스템 목적에 반하는 모든 행동</li>
     </ul>
     <div class="note">※ 1차 적발 시 영구 이용 제한</div>
 
     <h2>이중 혈맹</h2>
     <ul>
-        <li>본캐와 동일 IP 부캐릭 타 혈맹 가입 불가</li>
-        <li>본캐 라인 / 부캐 중립 상태에서 사냥 금지</li>
+        <li>본캐와 동일 IP 부캐릭 타 혈맹 가입 금지</li>
+        <li>본캐 라인 / 부캐 중립 상태 사냥 금지</li>
         <li>적혈 잠입 목적 부캐 운영 금지</li>
     </ul>
-    <div class="note">※ 위반 시 벤 처리</div>
+    <div class="note">※ 위반 시 즉시 벤 처리</div>
 
     <h2>1:1 문의 안내</h2>
     <p>
