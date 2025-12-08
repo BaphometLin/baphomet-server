@@ -19,7 +19,6 @@
         font-family: "Malgun Gothic", Arial, sans-serif;
     }
 
-    /* 화면 전체 어두운 레이어 */
     body::before {
         content: "";
         position: fixed;
@@ -29,9 +28,6 @@
         z-index: 0;
     }
 
-    /* -------------------------
-       상단 메뉴
-    ------------------------- */
     .navbar {
         position: fixed;
         top: 0;
@@ -59,9 +55,6 @@
         text-shadow: 0 0 12px #ff0000;
     }
 
-    /* -------------------------
-       상단 배너
-    ------------------------- */
     .header {
         height: 520px;
         background: url('images/baphomet2.jpg') no-repeat center center/cover;
@@ -104,9 +97,6 @@
         letter-spacing: 4px;
     }
 
-    /* -------------------------
-       내용 컨테이너
-    ------------------------- */
     .container {
         width: 860px;
         margin: 120px auto 70px auto;
@@ -130,9 +120,6 @@
         border-bottom: 1px solid rgba(255, 0, 0, 0.28);
     }
 
-    /* -------------------------
-       홍보 사이트 버튼
-    ------------------------- */
     .site-buttons {
         display: flex;
         flex-wrap: wrap;
@@ -164,9 +151,6 @@
         box-shadow: 0 0 12px rgba(255, 0, 0, 0.35);
     }
 
-    /* -------------------------
-       복사 버튼
-    ------------------------- */
     .copy-btn {
         margin: 30px auto;
         width: 250px;
@@ -186,7 +170,6 @@
         box-shadow: 0 0 12px rgba(255,0,0,0.35);
     }
 
-    /* 🔥 홍보글 박스 */
     .promo-box {
         margin-top: 20px;
         padding: 20px;
@@ -206,9 +189,6 @@
         box-shadow: 0 0 12px rgba(255,0,0,0.35);
     }
 
-    /* -------------------------
-       하단 안내
-    ------------------------- */
     .footer {
         margin-top: 60px;
         padding: 15px 0;
@@ -218,37 +198,19 @@
         line-height: 1.4;
     }
 
+    #adminLoginBar {
+        text-align: right;
+        margin: 12px 25px;
+    }
 </style>
 </head>
 
 <body>
 
-<script>
-window.addEventListener("load", () => {
-    document.body.classList.add("loaded");
-});
+<div id="adminLoginBar">
+    <button onclick="showAdminLogin()" style="padding:5px 12px; font-size:14px;">관리자 로그인</button>
+</div>
 
-/* 🔥 클릭 시 전체 선택 */
-function selectText(id) {
-    const element = document.getElementById(id);
-    const range = document.createRange();
-    range.selectNodeContents(element);
-
-    const selection = window.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
-}
-
-/* 🔥 복사하기 */
-function copyPromo() {
-    const text = document.getElementById("promoText").innerText;
-    navigator.clipboard.writeText(text).then(() => {
-        alert("홍보내용이 복사되었습니다!");
-    });
-}
-</script>
-
-<!-- 메뉴 -->
 <div class="navbar">
     <a href="index.html">홈</a>
     <a href="notice.html">공지사항</a>
@@ -260,12 +222,10 @@ function copyPromo() {
     <a href="download.html">다운로드</a>
 </div>
 
-<!-- 상단 배너 -->
 <div class="header">
     <h1>홍보안내</h1>
 </div>
 
-<!-- 본문 -->
 <div class="container">
 
     <h2>홍보 사이트</h2>
@@ -291,68 +251,27 @@ function copyPromo() {
         ※ 보상은 변동될 수 있습니다.
     </p>
 
-    <!-- 복사 버튼 -->
     <div class="copy-btn" onclick="copyPromo()">홍보내용 복사</div>
 
-    <!-- 🔥 홍보 내용 박스 -->
-    <div id="promoText" class="promo-box" onclick="selectText('promoText')">
-❤️❤️노 초기화 2.0 ❤️❤️신생 바포메트 서버 GRAND OPEN❤️❤️자동사냥❤️❤️극하자서버 2.0❤️❤️
+    <!-- 🔥 서버에서 불러올 영역 -->
+    <div id="promoText" class="promo-box">
+        🔄 홍보내용을 불러오는 중…
+    </div>
 
-★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    <!-- 관리자 편집 영역 -->
+    <div id="adminEditor" style="display:none; margin-top:40px;">
+        <h2 style="color:#ff4d4d;">🔧 관리자 전용 홍보글 편집</h2>
+        <textarea id="promoEditor" style="width:100%; height:300px; font-size:16px; padding:10px;"></textarea>
 
-❤️ 이런 분들께 추천드립니다
+        <button onclick="savePromo()" style="margin-top:10px; padding:10px 20px; font-size:16px;">
+            화면에만 저장
+        </button>
 
-🔹 잦은 초기화(리셋)에 지쳐 안정적인 서버를 찾으시는 분  
-🔹 운영자의 갑질, 방관 등에 실망하신 분  
-🔹 직장인이라 플레이 시간이 많지 않은 분  
-
-❤️ 더 이상 헤매지 마세요. 바포메트 서버와 함께라면 충분합니다.
-
-★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
-
-
-⭐ 2.0 바포메트 서버 : https://baphometlin.github.io/baphomet-server/
-
-⭐ 바포메트 서버 단톡방 : https://open.kakao.com/o/gj9Q9C5h
-
-⭐ 텔레그램 문의 : Baphometlin
-
-
-★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
-
-❤️ 노초기화 2.0 바포메트 서버 소개 ❤️
-
-🔹 본섭 지향 극!하자 서버  
-🔹 무과금 유저도 충분히 플레이 가능  
-🔹 2.0 미니맵, F1 F2 F3 슬롯창 기능, 장비 착용 On/Off, 인벤 수량 표시  
-🔹 화면 상단 버프 표시 및 잔여 시간 확인  
-🔹 스킬 대기시간 표시  
-🔹 해외에서도 칼끊김이 없는 자동칼질 구현  
-🔹 이벤트 상시 진행  
-🔹 전투 / 뎅팔이 등 다양한 컨텐츠 지원  
-🔹 정기 업데이트로 안정적 운영  
-🔹 군주들과 협의하여 서버 방향 논의  
-🔹 자동사냥 / 자동판매 시스템 → 직장인 핵이득  
-🔹 1컴 2클라 지원
-
-
-★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
-
-❤️ 운영 방침 ❤️
-
-🔹 1인 운영으로 비리, 측근 전면 차단  
-🔹 디도스 대비 / 오토프로그램 강력 차단 업데이트  
-🔹 맵 확장 업데이트 예정 (오만, 테베라스, 지옥 등 순차 진행)  
-🔹 중요한 업데이트는 모두 공지  
-🔹 아이템, 아데나 가치 보전을 위한 지속적인 관리
-
-★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
-
-⭐ 2.0 바포메트 서버 : https://baphometlin.github.io/baphomet-server/
-
-⭐ 바포메트 서버 단톡방 : https://open.kakao.com/o/gj9Q9C5h
-
-⭐ 텔레그램 문의 : Baphometlin    </div>
+        <button onclick="saveToGithub()" id="saveGithubBtn"
+            style="margin-top:10px; padding:10px 20px; font-size:16px; background:#225588; color:white;">
+            🔥 GitHub에 반영하기
+        </button>
+    </div>
 
 </div>
 
@@ -361,8 +280,103 @@ function copyPromo() {
     게임사의 요청 시 서버는 언제든지 중단될 수 있습니다.
 </div>
 
+<script>
+let isAdmin = false;
+let githubToken = null;
+
+/* 🔥 페이지 로딩 시 promo.txt 가져오기 */
+async function loadPromoText() {
+    try {
+        const res = await fetch("https://raw.githubusercontent.com/baphometlin/baphomet-server/main/promo.txt");
+        const text = await res.text();
+        document.getElementById("promoText").innerText = text;
+    } catch {
+        document.getElementById("promoText").innerText = "⚠️ 홍보내용을 불러오지 못했습니다.";
+    }
+}
+loadPromoText();
+
+/* 전체 선택 */
+function selectText(id) {
+    const range = document.createRange();
+    range.selectNodeContents(document.getElementById(id));
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+}
+
+/* 복사하기 */
+function copyPromo() {
+    navigator.clipboard.writeText(document.getElementById("promoText").innerText)
+        .then(() => alert("홍보내용이 복사되었습니다!"));
+}
+
+/* 관리자 로그인 */
+function showAdminLogin() {
+    const pw = prompt("관리자 비밀번호를 입력하세요.");
+    if (pw !== "bapo1234") {
+        alert("비밀번호가 틀렸습니다.");
+        return;
+    }
+
+    isAdmin = true;
+    document.getElementById("adminEditor").style.display = "block";
+
+    githubToken = prompt("GitHub Token을 입력하세요.\n(※ Token은 저장되지 않으며 즉시 사용 후 폐기됩니다.)");
+
+    const currentText = document.getElementById("promoText").innerText;
+    document.getElementById("promoEditor").value = currentText;
+}
+
+/* 화면에만 저장 */
+function savePromo() {
+    if (!isAdmin) return;
+
+    const newText = document.getElementById("promoEditor").value;
+    document.getElementById("promoText").innerText = newText;
+
+    alert("화면에만 저장되었습니다.\n(모든 유저에게 적용하려면 GitHub 반영하기를 눌러주세요.)");
+}
+
+/* 🔥 GitHub에 promo.txt 업로드 */
+async function saveToGithub() {
+    if (!githubToken) {
+        alert("GitHub Token이 없습니다!");
+        return;
+    }
+
+    const newText = document.getElementById("promoEditor").value;
+
+    const apiUrl = "https://api.github.com/repos/baphometlin/baphomet-server/contents/promo.txt";
+
+    // SHA 가져오기
+    const getRes = await fetch(apiUrl, {
+        headers: { "Authorization": `token ${githubToken}` }
+    });
+    const fileData = await getRes.json();
+    const sha = fileData.sha;
+
+    // 업데이트 요청
+    const uploadRes = await fetch(apiUrl, {
+        method: "PUT",
+        headers: {
+            "Authorization": `token ${githubToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            message: "Update promo.txt",
+            content: btoa(unescape(encodeURIComponent(newText))),
+            sha: sha
+        })
+    });
+
+    if (uploadRes.ok) {
+        alert("🎉 GitHub 반영 완료!\n모든 유저에게 즉시 적용됩니다.");
+    } else {
+        alert("❌ GitHub 저장 실패! Token 또는 설정을 확인하세요.");
+    }
+}
+</script>
+
 </body>
 </html>
-
-
-
