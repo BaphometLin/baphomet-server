@@ -180,6 +180,15 @@ function loadUpdates() {
     renderBoard();
 }
 
+    list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    updates = list;
+    filtered = [...updates];
+
+    localStorage.setItem("updates", JSON.stringify(updates));
+    renderBoard();
+}
+
 
 function renderBoard() {
     const tbody = document.getElementById("boardBody");
