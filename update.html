@@ -5,7 +5,6 @@
 <title>Baphomet Server - 업데이트</title>
 
 <style>
-/* ===== (CSS 전체 동일 – 생략 없이 유지) ===== */
 html {
     background: url('images/background_full.jpg') no-repeat center top;
     background-size: cover;
@@ -149,7 +148,7 @@ window.addEventListener("load", loadUpdates);
 function loadUpdates() {
     let list = JSON.parse(localStorage.getItem("updates") || "[]");
 
-    // ✅ 기본 업데이트 1개 자동 생성 (처음 접속 시)
+    // ✅ 기본 업데이트 1개 자동 생성
     if (list.length === 0) {
         list.push({
             id: Date.now(),
@@ -163,11 +162,7 @@ function loadUpdates() {
     list.forEach((u, idx) => {
         if (!u.id) u.id = Date.now() + idx;
         if (!u.createdAt) {
-            if (u.date && /^\d{4}-\d{2}-\d{2}$/.test(u.date)) {
-                u.createdAt = u.date + "T00:00:00";
-            } else {
-                u.createdAt = new Date().toISOString();
-            }
+            u.createdAt = new Date().toISOString();
         }
     });
 
@@ -175,20 +170,9 @@ function loadUpdates() {
 
     updates = list;
     filtered = [...updates];
-
     localStorage.setItem("updates", JSON.stringify(updates));
     renderBoard();
 }
-
-    list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-    updates = list;
-    filtered = [...updates];
-
-    localStorage.setItem("updates", JSON.stringify(updates));
-    renderBoard();
-}
-
 
 function renderBoard() {
     const tbody = document.getElementById("boardBody");
@@ -197,13 +181,13 @@ function renderBoard() {
     pagination.innerHTML = "";
 
     const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
-    const start = (currentPage-1)*PAGE_SIZE;
-    const pageItems = filtered.slice(start, start+PAGE_SIZE);
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const pageItems = filtered.slice(start, start + PAGE_SIZE);
 
-    pageItems.forEach((u,idx)=>{
+    pageItems.forEach((u, idx) => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-            <td>${filtered.length-(start+idx)}</td>
+            <td>${filtered.length - (start + idx)}</td>
             <td><span class="title-link" onclick="openDetail(${u.id})">${u.title}</span></td>
             <td>${u.date}</td>
             <td>-</td>
@@ -211,23 +195,27 @@ function renderBoard() {
         tbody.appendChild(tr);
     });
 
-    for(let i=1;i<=totalPages;i++){
-        const b=document.createElement("button");
-        b.textContent=i;
-        if(i===currentPage) b.classList.add("active");
-        b.onclick=()=>{currentPage=i;renderBoard();}
-        pagination.appendChild(b);
+    for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        if (i === currentPage) btn.classList.add("active");
+        btn.onclick = () => {
+            currentPage = i;
+            renderBoard();
+        };
+        pagination.appendChild(btn);
     }
 }
 
-function openDetail(id){
-    const u=updates.find(x=>x.id===id);
-    document.getElementById("modalTitle").textContent=u.title;
-    document.getElementById("modalContent").textContent=u.content;
-    document.getElementById("modalOverlay").style.display="flex";
+function openDetail(id) {
+    const u = updates.find(x => x.id === id);
+    if (!u) return;
+    document.getElementById("modalTitle").textContent = u.title;
+    document.getElementById("modalContent").textContent = u.content;
+    document.getElementById("modalOverlay").style.display = "flex";
 }
-function closeModal(){
-    document.getElementById("modalOverlay").style.display="none";
+function closeModal() {
+    document.getElementById("modalOverlay").style.display = "none";
 }
 </script>
 </head>
@@ -246,7 +234,12 @@ function closeModal(){
 <div class="container">
 <table class="board">
 <thead>
-<tr><th>번호</th><th>제목</th><th>작성일</th><th>관리</th></tr>
+<tr>
+    <th>번호</th>
+    <th>제목</th>
+    <th>작성일</th>
+    <th>관리</th>
+</tr>
 </thead>
 <tbody id="boardBody"></tbody>
 </table>
@@ -267,4 +260,3 @@ function closeModal(){
 
 </body>
 </html>
-
