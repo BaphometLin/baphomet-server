@@ -149,23 +149,37 @@ window.addEventListener("load", loadUpdates);
 function loadUpdates() {
     let list = JSON.parse(localStorage.getItem("updates") || "[]");
 
-    // ✅ 기본 업데이트 자동 생성
+    // ✅ 기본 업데이트 1개 자동 생성 (처음 접속 시)
     if (list.length === 0) {
         list.push({
             id: Date.now(),
             title: "업데이트 사항은 서버내 또는 단톡방 참조",
             content: "업데이트 사항은 서버내 또는 단톡방 참조",
-            date: new Date().toISOString().substring(0,10),
+            date: new Date().toISOString().substring(0, 10),
             createdAt: new Date().toISOString()
         });
-        localStorage.setItem("updates", JSON.stringify(list));
     }
 
-    list.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+    list.forEach((u, idx) => {
+        if (!u.id) u.id = Date.now() + idx;
+        if (!u.createdAt) {
+            if (u.date && /^\d{4}-\d{2}-\d{2}$/.test(u.date)) {
+                u.createdAt = u.date + "T00:00:00";
+            } else {
+                u.createdAt = new Date().toISOString();
+            }
+        }
+    });
+
+    list.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
     updates = list;
     filtered = [...updates];
+
+    localStorage.setItem("updates", JSON.stringify(updates));
     renderBoard();
 }
+
 
 function renderBoard() {
     const tbody = document.getElementById("boardBody");
@@ -244,3 +258,4 @@ function closeModal(){
 
 </body>
 </html>
+
